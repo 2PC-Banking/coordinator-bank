@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: coordinator-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - coordinator_mongo_data:/data/db
+    networks:
+      - bank_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  coordinator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: coordinator-app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8002:8002"
+    environment:
+      MONGODB_URI: mongodb://admin:admin@mongo:27017/coordinator_db?authSource=admin
+      SPRING_MONGODB_URI: mongodb://admin:admin@mongo:27017/coordinator_db?authSource=admin
+      SPRING_DATA_MONGODB_URI: mongodb://admin:admin@mongo:27017/coordinator_db?authSource=admin
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - bank_network
+    restart: unless-stopped
+
+volumes:
+  coordinator_mongo_data:
+
+networks:
+  bank_network:
+    driver: bridge

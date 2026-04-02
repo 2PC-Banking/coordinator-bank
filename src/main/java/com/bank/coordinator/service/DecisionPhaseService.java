@@ -73,6 +73,8 @@ public class DecisionPhaseService {
         }
 
         tx.setUpdatedAt(LocalDateTime.now());
+        repository.save(tx);
+        log.info("DECISION retry completed. Status: {}", tx.getStatus());
     }
 
     private void sendDecisionToParticipant(CoordinatorTransaction tx, Participant p) {

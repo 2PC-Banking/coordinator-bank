@@ -1,9 +1,11 @@
 spring:
   application:
     name: coordinator
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/coordinator_db}
   data:
     mongodb:
-      uri: mongodb://localhost:27017/coordinator_db
+      uri: ${MONGODB_URI:mongodb://localhost:27017/coordinator_db}
   
 server:
   port: 8002
