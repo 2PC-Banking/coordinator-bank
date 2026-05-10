@@ -94,9 +94,9 @@ public class DecisionPhaseService {
     private void sendCommit(CoordinatorTransaction tx, Participant p) {
         ParticipantCommitRequest request = new ParticipantCommitRequest();
         request.setTransaction_id(tx.getTransactionId());
-        request.setSimulate_delay_ms(0);
-        request.setSimulate_fail_before_apply(false);
-        request.setSimulate_crash(false);
+        request.setSimulate_delay_ms(p.getSimulateCommitDelayMs());
+        request.setSimulate_fail_before_apply(p.isSimulateCommitFailBeforeApply());
+        request.setSimulate_crash(p.isSimulateCommitCrash());
 
         ParticipantCommitResponse response = bankClient.sendCommit(p.getBaseUrl(), request);
 
@@ -112,9 +112,9 @@ public class DecisionPhaseService {
     private void sendRollback(CoordinatorTransaction tx, Participant p) {
         ParticipantRollbackRequest request = new ParticipantRollbackRequest();
         request.setTransaction_id(tx.getTransactionId());
-        request.setSimulate_delay_ms(0);
-        request.setSimulate_crash_before_apply(false);
-        request.setSimulate_crash_after_apply(false);
+        request.setSimulate_delay_ms(p.getSimulateRollbackDelayMs());
+        request.setSimulate_crash_before_apply(p.isSimulateRollbackCrashBeforeApply());
+        request.setSimulate_crash_after_apply(p.isSimulateRollbackCrashAfterApply());
 
         ParticipantRollbackResponse response = bankClient.sendRollback(p.getBaseUrl(), request);
 

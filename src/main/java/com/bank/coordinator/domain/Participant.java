@@ -20,5 +20,13 @@ public class Participant {
     private String decisionAck; // ACK, NACK, UNKNOWN
     private int retryCount;
     private String lastError;
+    private int simulatePrepareDelayMs;
+    private boolean simulatePrepareCrashBeforeVote;
+    private int simulateCommitDelayMs;
+    private boolean simulateCommitFailBeforeApply;
+    private boolean simulateCommitCrash;
+    private int simulateRollbackDelayMs;
+    private boolean simulateRollbackCrashBeforeApply;
+    private boolean simulateRollbackCrashAfterApply;
     private LocalDateTime updatedAt;
 }

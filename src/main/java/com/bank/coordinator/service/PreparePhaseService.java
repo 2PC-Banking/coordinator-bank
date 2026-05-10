@@ -55,8 +55,8 @@ public class PreparePhaseService {
             request.setAccount_id(p.getAccountId());
             request.setOperation(p.getOperation());
             request.setAmount(tx.getAmount());
-            request.setSimulate_delay_ms(0);
-            request.setSimulate_crash_before_vote(false);
+            request.setSimulate_delay_ms(p.getSimulatePrepareDelayMs());
+            request.setSimulate_crash_before_vote(p.isSimulatePrepareCrashBeforeVote());
 
             ParticipantPrepareResponse response = bankClient.sendPrepare(p.getBaseUrl(), request);
 
