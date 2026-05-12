@@ -48,6 +48,14 @@ public class TransferService {
                         .baseUrl(p.getBaseUrl())
                         .accountId(p.getAccountId())
                         .operation(p.getOperation())
+                        .simulatePrepareDelayMs(defaultInt(p.getSimulatePrepareDelayMs()))
+                        .simulatePrepareCrashBeforeVote(defaultBool(p.getSimulatePrepareCrashBeforeVote()))
+                        .simulateCommitDelayMs(defaultInt(p.getSimulateCommitDelayMs()))
+                        .simulateCommitFailBeforeApply(defaultBool(p.getSimulateCommitFailBeforeApply()))
+                        .simulateCommitCrash(defaultBool(p.getSimulateCommitCrash()))
+                        .simulateRollbackDelayMs(defaultInt(p.getSimulateRollbackDelayMs()))
+                        .simulateRollbackCrashBeforeApply(defaultBool(p.getSimulateRollbackCrashBeforeApply()))
+                        .simulateRollbackCrashAfterApply(defaultBool(p.getSimulateRollbackCrashAfterApply()))
                         .prepareVote("UNKNOWN")
                         .decisionAck("UNKNOWN")
                         .retryCount(0)
@@ -139,6 +147,14 @@ public class TransferService {
 
     private String generateTransactionId() {
         return "TX-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private int defaultInt(Integer value) {
+        return value == null ? 0 : value;
+    }
+
+    private boolean defaultBool(Boolean value) {
+        return value != null && value;
     }
 
     private Map<String, Object> createHistoryEvent(String event, String message) {
