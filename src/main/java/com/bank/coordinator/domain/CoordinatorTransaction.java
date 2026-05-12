@@ -42,6 +42,7 @@ public class CoordinatorTransaction {
     private List<Map<String, Object>> history; // Event log
 
     private LocalDateTime nextRetryAt;
+    private LocalDateTime decisionSentAt; // Thời điểm bắt đầu Phase 2 DECISION (để tính timeout IN_DOUBT)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
